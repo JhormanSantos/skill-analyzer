@@ -6,8 +6,8 @@ interface SearchFormProps {
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
-  const [role, setRole] = useState('Software Engineer');
-  const [skills, setSkills] = useState<string[]>(['React', 'Node.js']);
+  const [role, setRole] = useState('');
+  const [skills, setSkills] = useState<string[]>([]);
   const [currentSkill, setCurrentSkill] = useState('');
 
   const handleAddSkill = () => {
