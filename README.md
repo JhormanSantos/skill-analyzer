@@ -2,6 +2,8 @@
 
 A full-stack application built for the Torre Technical Test. This tool allows users to analyze the skill gap for a specific job role by searching Torre's database for professionals, fetching their skills, and visualizing the coverage percentage for a given set of desired skills.
 
+### **[🚀 Live Demo Link](https://skill-analyzer.vercel.app/)**
+
 
 ---
 
@@ -24,7 +26,7 @@ A full-stack application built for the Torre Technical Test. This tool allows us
 -   **Framework:** React (with Vite)
 -   **Language:** TypeScript
 -   **Styling:** Tailwind CSS
--   **Data Fetching:** TanStack Query (React Query)
+-   **Data Fetching & State Management:** TanStack Query (React Query)
 -   **Charts:** Chart.js
 
 ### Backend
@@ -35,7 +37,7 @@ A full-stack application built for the Torre Technical Test. This tool allows us
 ### Deployment
 
 -   **Backend:** Render
--   **Frontend:** [e.g., Vercel, Netlify, GitHub Pages - Add your frontend deployment service here]
+-   **Frontend:** Vercel
 
 ---
 
@@ -50,8 +52,8 @@ A full-stack application built for the Torre Technical Test. This tool allows us
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/](https://github.com/)[Your-GitHub-Username]/skill-gap-analyzer.git
-    cd skill-gap-analyzer
+    git clone [https://github.com/JhormanSantos/skill-analyzer.git](https://github.com/JhormanSantos/skill-analyzer.git)
+    cd skill-analyzer
     ```
 
 2.  **Setup the Backend:**
