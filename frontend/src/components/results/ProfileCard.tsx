@@ -1,4 +1,3 @@
-// In frontend/src/components/results/ProfileCard.tsx
 import type { AnalysisData } from "../../types";
 
 type Profile = AnalysisData['profiles'][0];
@@ -15,29 +14,35 @@ const ProfileCard = ({ profile }: ProfileCardProps) => {
       rel="noopener noreferrer"
       className="block"
     >
-      <article className="flex items-center gap-4 bg-white p-3 rounded-lg border border-slate-200 hover:shadow-lg hover:border-indigo-300 transition-all duration-200">
+      <article className="flex items-center gap-4 bg-gray-800 p-3 rounded-lg border border-gray-700 hover:shadow-lg hover:border-[#9ACD32] transition-all duration-200">
         
         {profile.picture ? (
-          // If a picture exists, show it
           <img 
             src={profile.picture} 
             alt={`Profile picture of ${profile.name}`}
             className="w-14 h-14 rounded-full object-cover shrink-0" 
-            // Add an onError handler as an extra fallback
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            onError={(e) => { 
+              // More robust error handling: replace with fallback SVG
+              const parent = (e.target as HTMLImageElement).parentElement;
+              if (parent) {
+                const fallback = document.createElement('div');
+                fallback.className = "w-14 h-14 rounded-full bg-gray-700 flex items-center justify-center shrink-0";
+                fallback.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>`;
+                parent.replaceChild(fallback, (e.target as HTMLImageElement));
+              }
+            }}
           />
         ) : (
-          // If no picture, show a generic SVG avatar
-          <div className="w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-slate-500" viewBox="0 0 20 20" fill="currentColor">
+          <div className="w-14 h-14 rounded-full bg-gray-700 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
             </svg>
           </div>
         )}
         
         <div>
-          <h4 className="font-bold text-slate-800">{profile.name}</h4>
-          <p className="text-sm text-slate-500">{profile.professionalHeadline}</p>
+          <h4 className="font-bold text-white">{profile.name}</h4>
+          <p className="text-sm text-slate-400">{profile.professionalHeadline}</p>
         </div>
       </article>
     </a>

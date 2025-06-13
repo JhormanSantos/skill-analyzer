@@ -6,8 +6,8 @@ interface SearchFormProps {
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
-  const [role, setRole] = useState('');
-  const [skills, setSkills] = useState<string[]>([]);
+  const [role, setRole] = useState('Software Engineer');
+  const [skills, setSkills] = useState<string[]>(['React', 'Node.js']);
   const [currentSkill, setCurrentSkill] = useState('');
 
   const handleAddSkill = () => {
@@ -33,10 +33,13 @@ const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
     onAnalyze(role, skills);
   };
 
+  const torreGreen = '#9ACD32';
+  const torreGreenDark = '#8CBF26';
+
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-xl shadow-md space-y-6">
+    <form onSubmit={handleSubmit} className="bg-gray-800 border border-gray-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-6">
       <div className="space-y-2">
-        <label htmlFor="role-input" className="text-sm font-medium text-slate-700">Job Role</label>
+        <label htmlFor="role-input" className="text-sm font-medium text-slate-300">Job Role</label>
         <input
           id="role-input"
           type="text"
@@ -44,12 +47,12 @@ const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
           onChange={(e) => setRole(e.target.value)}
           placeholder="e.g., Product Manager"
           required
-          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#9ACD32] focus:border-[#9ACD32]"
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="skill-input" className="text-sm font-medium text-slate-700">Skills to Analyze</label>
+        <label htmlFor="skill-input" className="text-sm font-medium text-slate-300">Skills to Analyze</label>
         <div className="flex gap-2">
           <input
             id="skill-input"
@@ -58,21 +61,27 @@ const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
             onChange={(e) => setCurrentSkill(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a skill and press Enter"
-            className="flex-grow px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            // Input styles for dark mode
+            className="flex-grow px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#9ACD32] focus:border-[#9ACD32]"
           />
-          <button type="button" onClick={handleAddSkill} className="px-4 py-2 bg-indigo-100 text-indigo-700 font-semibold rounded-lg hover:bg-indigo-200">Add</button>
+          <button type="button" onClick={handleAddSkill} className={`px-4 py-2 bg-gray-700 text-lime-300 font-semibold rounded-lg hover:bg-gray-600 border border-gray-600`}>Add</button>
         </div>
         <div className="flex flex-wrap gap-2 pt-2">
           {skills.map(skill => (
-            <div key={skill} className="flex items-center gap-2 bg-slate-200 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">
+            // Skill tag styles for dark mode
+            <div key={skill} className={`flex items-center gap-2 bg-gray-700 text-lime-300 text-sm font-medium px-3 py-1 rounded-full`}>
               <span>{skill}</span>
-              <button type="button" onClick={() => handleRemoveSkill(skill)} className="text-slate-500 hover:text-slate-800 font-bold">×</button>
+              <button type="button" onClick={() => handleRemoveSkill(skill)} className="text-gray-400 hover:text-white font-bold">×</button>
             </div>
           ))}
         </div>
       </div>
 
-      <button type="submit" className="w-full px-4 py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed transition-colors" disabled={isLoading}>
+      <button 
+        type="submit" 
+        className={`w-full px-4 py-3 text-gray-900 font-bold rounded-lg shadow-md transition-colors bg-[${torreGreen}] hover:bg-[${torreGreenDark}] disabled:bg-slate-500 disabled:text-slate-100 disabled:cursor-not-allowed`} 
+        disabled={isLoading}
+      >
         {isLoading ? 'Analyzing...' : 'Analyze Gap'}
       </button>
     </form>

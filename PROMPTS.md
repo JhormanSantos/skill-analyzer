@@ -33,3 +33,9 @@ My current backend code is crashing because it's trying to access `profile.perso
 1.  **HTML Semantics:** Replace generic `div` tags with more appropriate semantic tags where applicable (e.g., `section`, `article`, `dl`, `dt`, `dd`) to improve accessibility and document structure.
 2.  **Mobile Responsiveness:** Apply a "mobile-first" approach using Tailwind CSS utility classes. The layout should stack cleanly on small screens and adapt to a multi-column or wider layout on larger (`md` or `lg`) screens.
 Please provide the complete, refactored code for each component.
+
+
+## 4. Request to refactor the entire application to a dark theme
+**Tool:** Gemini
+**Model:** Gemini Pro
+**Prompt:** My application is functionally complete, but for a final visual refinement, I want to align it with the Torre.ai brand identity by implementing a dark theme. Please refactor the entire frontend application. The primary background should be a dark gray/black. The accent color for buttons, charts, and interactive elements should be the vibrant lime green from Torre's logo. Text should be updated to light grays and white for high contrast and readability. Please provide the complete, updated code for all affected React components, including App.tsx, SearchForm.tsx, ResultsDashboard.tsx, and all of its child components, with the new dark theme styles applied using Tailwind CSS classes.

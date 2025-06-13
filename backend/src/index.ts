@@ -41,12 +41,11 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
       streamContent += decoder.decode(value, { stream: true });
     }
     
-    // Parse the results and add a simple safety filter for objects that have a username
     const profilesFromSearch = streamContent
       .split('\n')
       .filter(line => line.trim())
       .map(line => JSON.parse(line))
-      .filter(p => p.username); // Ensure we only process profiles with a username
+      .filter(p => p.username); 
 
     const genomePromises = profilesFromSearch.map(profile => 
       fetch(`https://torre.ai/api/genome/bios/${profile.username}`)
@@ -82,7 +81,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
       profiles: profilesFromSearch.map(p => ({
         username: p.username,
         name: p.name,
-        picture: p.imageUrl, // Using the correct key: imageUrl
+        picture: p.imageUrl, 
         professionalHeadline: p.professionalHeadline,
       })),
     };

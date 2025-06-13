@@ -13,12 +13,14 @@ function App() {
   });
 
   return (
-    // The base styles are for mobile
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
+    // Set background to a very dark gray and default text to light gray
+    <div className="bg-gray-900 min-h-screen font-sans text-slate-300">
+
+      
       <header className="text-center py-8 px-4">
-        {/* Font size adjusts for medium screens (md) and up */}
-        <h1 className="text-3xl md:text-5xl font-bold">Skill Gap Analyzer</h1>
-        <p className="text-base md:text-lg text-slate-600 mt-2">Analyze the talent gap for any job role.</p>
+        
+        <h1 className="text-3xl md:text-5xl font-bold text-white">Skill Gap Analyzer</h1>
+        <p className="text-base md:text-lg text-slate-400 mt-2">Analyze the talent gap for any job role.</p>
       </header>
       
       <main className="max-w-4xl mx-auto px-4 pb-12">
