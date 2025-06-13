@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'; // <--- CAMBIO 1: Importar los tipos
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 
 const app = express();
@@ -7,22 +7,19 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// The main endpoint that the frontend will call
-app.post('/api/analyze', async (req: Request, res: Response) => { 
+app.post('/api/analyze', async (req: Request, res: Response) => {
   const { role, skills } = req.body;
 
-  // validation
   if (!role || !skills || !Array.isArray(skills)) {
     res.status(400).json({ message: 'Missing role or skills in request body' });
     return;
   }
 
   try {
-    // const to search for profiles using the _searchStream API
     const searchPayload = {
       query: role,
       identityType: 'person',
-      limit: 30, // Let's analyze the first 30 profiles to keep it fast
+      limit: 20,
     };
 
     const searchResponse = await fetch('https://torre.ai/api/entities/_searchStream', {
@@ -35,55 +32,46 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
       throw new Error('Failed to fetch from Torre search stream API');
     }
     
-    // The response is a stream, so we need to process it chunk by chunk
     const reader = searchResponse.body.getReader();
     const decoder = new TextDecoder();
     let streamContent = '';
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       streamContent += decoder.decode(value, { stream: true });
     }
     
-    // Each line in the stream is a separate JSON object. We parse them all.
+    // Parse the results and add a simple safety filter for objects that have a username
     const profilesFromSearch = streamContent
       .split('\n')
       .filter(line => line.trim())
-      .map(line => JSON.parse(line));
-    
-    // Fetch the detailed "genome" for each profile in parallel
+      .map(line => JSON.parse(line))
+      .filter(p => p.username); // Ensure we only process profiles with a username
+
     const genomePromises = profilesFromSearch.map(profile => 
       fetch(`https://torre.ai/api/genome/bios/${profile.username}`)
         .then(response => response.ok ? response.json() : null)
     );
     
-    // Promise.allSettled waits for all promises, even if some fail
     const genomeResults = await Promise.allSettled(genomePromises);
     
     const validGenomes = genomeResults
       .filter(result => result.status === 'fulfilled' && result.value)
       .map(result => (result as PromiseFulfilledResult<any>).value);
 
-    // Analyze the skills
+    // ... (El análisis de skills no cambia)
     const skillAnalysis: Record<string, number> = {};
     skills.forEach(skill => {
       const count = validGenomes.filter(genome => 
         genome.strengths.some((s: any) => s.name.toLowerCase() === skill.toLowerCase())
       ).length;
-      
-      // Calculate the percentage based on the number of valid genomes we could fetch
-      skillAnalysis[skill] = validGenomes.length > 0
-      ? (count / validGenomes.length) * 100
-      : 0;
+      skillAnalysis[skill] = validGenomes.length > 0 ? (count / validGenomes.length) * 100 : 0;
     });
-
     const skillGap = skills.map(skill => ({
       skill,
       percentage: Math.round(skillAnalysis[skill] || 0),
     }));
 
-    // Format the final response object
     const finalResponse = {
       analysisSummary: {
         role,
@@ -91,10 +79,10 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         searchSkills: skills,
       },
       skillGap,
-      profiles: profilesFromSearch.map(p => ({ // Return simplified profile data
+      profiles: profilesFromSearch.map(p => ({
         username: p.username,
         name: p.name,
-        picture: p.pictureThumbnail || p.picture, 
+        picture: p.imageUrl, // Using the correct key: imageUrl
         professionalHeadline: p.professionalHeadline,
       })),
     };
