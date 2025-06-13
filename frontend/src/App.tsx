@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useMutation } from '@tanstack/react-query';
+import { analyzeSkills } from './services/api';
+import type { AnalysisData } from './types';
+
+import SearchForm from './components/SearchForm';
+import ResultsDashboard from './components/ResultsDashboard';
+import LoadingSpinner from './components/LoadingSpinner';
+import ErrorMessage from './components/ErrorMessage';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const mutation = useMutation<AnalysisData, Error, { role: string; skills: string[] }>({
+    mutationFn: ({ role, skills }) => analyzeSkills(role, skills),
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    // The base styles are for mobile
+    <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
+      <header className="text-center py-8 px-4">
+        {/* Font size adjusts for medium screens (md) and up */}
+        <h1 className="text-3xl md:text-5xl font-bold">Skill Gap Analyzer</h1>
+        <p className="text-base md:text-lg text-slate-600 mt-2">Analyze the talent gap for any job role.</p>
+      </header>
+      
+      <main className="max-w-4xl mx-auto px-4 pb-12">
+        <SearchForm
+          onAnalyze={(role, skills) => mutation.mutate({ role, skills })}
+          isLoading={mutation.isPending}
+        />
+
+        <div className="mt-8 md:mt-12">
+          {mutation.isPending && <LoadingSpinner />}
+          {mutation.isError && <ErrorMessage message={mutation.error.message} />}
+          {mutation.data && <ResultsDashboard data={mutation.data} />}
+        </div>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
