@@ -33,9 +33,3 @@ My current backend code is crashing because it's trying to access `profile.perso
 1.  **HTML Semantics:** Replace generic `div` tags with more appropriate semantic tags where applicable (e.g., `section`, `article`, `dl`, `dt`, `dd`) to improve accessibility and document structure.
 2.  **Mobile Responsiveness:** Apply a "mobile-first" approach using Tailwind CSS utility classes. The layout should stack cleanly on small screens and adapt to a multi-column or wider layout on larger (`md` or `lg`) screens.
 Please provide the complete, refactored code for each component.
-
-## 📜 AI Prompts Log
-
-As per the test requirements, a log of all prompts used with AI/LLM tools (like Gemini) during the development of this project can be found in the following file:
-
-- **[View AI Prompts Used](./PROMPTS.md)**

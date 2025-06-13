@@ -89,3 +89,9 @@ This project utilizes the following public endpoints from Torre's API:
 
 -   `POST /api/entities/_searchStream`: To search for professionals by role.
 -   `GET /api/genome/bios/{username}`: To retrieve detailed profile information, including skills.
+
+## 📜 AI Prompts Log
+
+As per the test requirements, a log of all prompts used with AI/LLM tools (like Gemini) during the development of this project can be found in the following file:
+
+- **[View AI Prompts Used](./PROMPTS.md)**
