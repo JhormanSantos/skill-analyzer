@@ -33,8 +33,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
     onAnalyze(role, skills);
   };
 
-  const torreGreen = '#9ACD32';
-  const torreGreenDark = '#8CBF26';
+  
 
   return (
     <form onSubmit={handleSubmit} className="bg-gray-800 border border-gray-700 p-6 sm:p-8 rounded-xl shadow-lg space-y-6">
@@ -79,7 +78,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onAnalyze, isLoading }) => {
 
       <button 
         type="submit" 
-        className={`w-full px-4 py-3 text-gray-900 font-bold rounded-lg shadow-md transition-colors bg-[${torreGreen}] hover:bg-[${torreGreenDark}] disabled:bg-slate-500 disabled:text-slate-100 disabled:cursor-not-allowed`} 
+        className={`w-full px-4 py-3 text-gray-900 font-bold rounded-lg shadow-md transition-colors bg-[#9ACD32] hover:bg-[#8CBF26] disabled:bg-slate-500 disabled:text-slate-100 disabled:cursor-not-allowed`} 
         disabled={isLoading}
       >
         {isLoading ? 'Analyzing...' : 'Analyze Gap'}
