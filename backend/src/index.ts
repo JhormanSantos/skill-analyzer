@@ -22,7 +22,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
     const searchPayload = {
       query: role,
       identityType: 'person',
-      limit: 20, // Let's analyze the first 20 profiles to keep it fast
+      limit: 30, // Let's analyze the first 30 profiles to keep it fast
     };
 
     const searchResponse = await fetch('https://torre.ai/api/entities/_searchStream', {
@@ -94,7 +94,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
       profiles: profilesFromSearch.map(p => ({ // Return simplified profile data
         username: p.username,
         name: p.name,
-        picture: p.picture,
+        picture: p.pictureThumbnail || p.picture, 
         professionalHeadline: p.professionalHeadline,
       })),
     };
